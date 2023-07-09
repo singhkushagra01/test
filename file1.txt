@@ -1,9 +1,5 @@
 pipeline {
     agent any
-
-
-
-    
     stages {
         stage('Build') {
             steps {
@@ -11,14 +7,12 @@ pipeline {
                 echo 'Building...'
             }
         }
-        
         stage('Test') {
             steps {
                 // Execute test steps here
                 echo 'Testing...'
             }
         }
-        
         stage('Deploy') {
             steps {
                 // Execute deployment steps here

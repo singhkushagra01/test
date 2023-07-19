@@ -19,6 +19,7 @@ jobs:
           git fetch --all
           # Calculate the number of lines changed in the pull request compared to the base branch (e.g., "main")
           PR_SIZE=$(git diff --numstat $(git merge-base origin/main HEAD)..HEAD | awk '{ sum+=$1 } END { print sum }')
+          echo "$PR_SIZE"
           echo "::set-output name=size::$PR_SIZE"
 
       - name: Check pull request size

@@ -48,7 +48,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }} # Use the secret token
         run:
           if [ "$env.merge" = false ]; then
-            gh pr edit ${{ github.event.number }} --mergeable false --token $TOKEN
+            gh pr edit ${{ github.event.number }} --mergeable false --token "${{secrets.TOKEN}}"
           else
             echo "Mergeable"
           fi

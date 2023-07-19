@@ -21,8 +21,10 @@ jobs:
           BASE_BRANCH=$(git rev-parse origin/main)
           HEAD_COMMIT=$(git rev-parse HEAD)
           PR_SIZE=$(git diff-tree --numstat $BASE_BRANCH..$HEAD_COMMIT | awk '{ sum+=$1 } END { print sum }')
-          echo "$PR_SIZE"
+          PR_SIZE=${PR_SIZE:-0}
           echo "::set-output name=size::$PR_SIZE"
+          echo "$PR_SIZE"
+
 
       - name: Check pull request size
         env:

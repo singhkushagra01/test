@@ -22,10 +22,11 @@ jobs:
           HEAD_COMMIT=$(git rev-parse HEAD)
           PR_SIZE=$(git diff-tree --numstat $BASE_BRANCH..$HEAD_COMMIT | awk '{ sum+=$1 } END { print sum }')
           echo "$PR_SIZE"
+          echo "::set-output name=size::$PR_SIZE"
 
       - name: Check pull request size
         env:
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }} # Use the secret token
+          GITHUB_TOKEN: ${{ secrets.TOKEN }} # Use the secret token
         run: |
           PR_SIZE="${{ steps.pr-size.outputs.size }}"
           THRESHOLD=1 # Set the threshold here (e.g., 500 lines of code changed)

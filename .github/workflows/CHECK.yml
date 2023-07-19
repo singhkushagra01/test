@@ -32,7 +32,7 @@ jobs:
         run: |
           PR_SIZE="${{ steps.pr-size.outputs.size }}"
           THRESHOLD=1 # Set the threshold here (e.g., 500 lines of code changed)
-          if [ "$PR_SIZE" -gt "$THRESHOLD" ]; then
+          if [ $PR_SIZE -gt $THRESHOLD ]; then
             echo "Warning: Pull request size ($PR_SIZE lines) exceeds the threshold ($THRESHOLD lines)."
             echo "Please consider splitting the changes into smaller, more manageable pull requests."
             # Leave a comment using the provided token

@@ -51,7 +51,7 @@ jobs:
             gh pr edit ${{ github.event.number }} --mergeable false --token $TOKEN
           else
             echo "Mergeable"
-          f1
+          fi
             
 
 

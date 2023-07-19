@@ -15,7 +15,7 @@ jobs:
       - name: Calculate pull request size
         id: pr-size
         run: |
-          PR_SIZE=$(git diff --numstat origin/main | awk '{ sum+=$1 } END { print sum }')
+          PR_SIZE=$(git diff --numstat origin/main..HEAD | awk '{ sum+=$1 } END { print sum }')
           echo "::set-output name=size::$PR_SIZE"
 
       - name: Check pull request size

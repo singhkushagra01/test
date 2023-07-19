@@ -39,7 +39,7 @@ jobs:
             # Leave a comment using the provided token
             # For example, using "gh" CLI:
             gh pr comment ${{ github.event.number }} -b "Warning: Pull request size exceeds the threshold. Please consider splitting the changes into smaller PRs."
-            PR_NUMBER = "${{ github.event.number }}"
+            PR_NUMBER = ${{ github.event.number }}
             API_URL="https://api.github.com/repos/OWNER/REPO/pulls/$PR_NUMBER"
             DATA="{\"mergeable\": false}"
             curl -X PATCH -H "Authorization: Bearer $secrets.TOKEN" -H "Content-Type: application/json" -d "$DATA" "$API_URL"

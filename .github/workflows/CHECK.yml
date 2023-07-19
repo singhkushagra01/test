@@ -39,7 +39,7 @@ jobs:
             # Leave a comment using the provided token
             # For example, using "gh" CLI:
             gh pr comment ${{ github.event.number }} -b "Warning: Pull request size exceeds the threshold. Please consider splitting the changes into smaller PRs."
-            gh pr edit ${{ github.event.number }} --mergeable false
+            gh pr edit ${{ github.event.number }} --base "DO_NOT_MERGE"
 
           fi   
           

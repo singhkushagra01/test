@@ -41,7 +41,7 @@ jobs:
             gh pr comment ${{ github.event.number }} -b "Warning: Pull request size exceeds the threshold. Please consider splitting the changes into smaller PRs."
             API_URL="https://api.github.com/repos/singhkushagra01/test/pulls/${{github.event.number}}"
             DATA="{\"mergeable\": false}"
-            curl -X PATCH -H "Authorization: Bearer $secrets.TOKEN" -H "Content-Type: application/json" -d "$DATA" "$API_URL"
+            curl -X PATCH -H "Authorization: Bearer ${{secrets.TOKEN}}" -H "Content-Type: application/json" -d "$DATA" "$API_URL"
 
           fi   
           

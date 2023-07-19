@@ -30,7 +30,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }} # Use the secret token
         run: |
-          PR_SIZE="${{ steps.pr-size.outputs.size }}"
+          echo "${{ steps.pr-size.outputs.size }}"
+          PR_SIZE=${{ steps.pr-size.outputs.size }}
           THRESHOLD=1 # Set the threshold here (e.g., 500 lines of code changed)
           if [ $PR_SIZE -gt $THRESHOLD ]; then
             echo "Warning: Pull request size ($PR_SIZE lines) exceeds the threshold ($THRESHOLD lines)."

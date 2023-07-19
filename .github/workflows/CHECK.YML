@@ -1,0 +1,38 @@
+name: Pull Request Size Check
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  check_pull_request_size:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Calculate pull request size
+        id: pr-size
+        run: |
+          PR_SIZE=$(git diff --numstat origin/main...HEAD | awk '{ sum+=$1 } END { print sum }')
+          echo "::set-output name=size::$PR_SIZE"
+
+      - name: Check pull request size
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }} # Use the secret token
+        run: |
+          PR_SIZE="${{ steps.pr-size.outputs.size }}"
+          THRESHOLD=2 # Set the threshold here (e.g., 500 lines of code changed)
+          if [ "$PR_SIZE" -gt "$THRESHOLD" ]; then
+            echo "Warning: Pull request size ($PR_SIZE lines) exceeds the threshold ($THRESHOLD lines)."
+            echo "Please consider splitting the changes into smaller, more manageable pull requests."
+            # Leave a comment using the provided token
+            # For example, using "gh" CLI:
+            gh pr comment ${{ github.event.number }} -b "Warning: Pull request size exceeds the threshold. Please consider splitting the changes into smaller PRs."
+            # Uncomment the above line by removing the "#" to enable the comment functionality.
+            # To use "gh" CLI, you'll need to have it installed and authenticated.
+            # For more information, visit https://cli.github.com/manual/
+            # Alternatively, you can use GitHub REST API with "curl" or other tools.
+            # exit 1 # Optionally, you can exit with an error code to prevent merging.
+          fi

@@ -43,5 +43,5 @@ jobs:
             # To use "gh" CLI, you'll need to have it installed and authenticated.
             # For more information, visit https://cli.github.com/manual/
             # Alternatively, you can use GitHub REST API with "curl" or other tools.
-            # exit 1 # Optionally, you can exit with an error code to prevent merging.
+            exit 1 # Optionally, you can exit with an error code to prevent merging.
           fi

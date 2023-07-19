@@ -30,6 +30,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }} # Use the secret token
         run: |
+          echo "merge=True" >> $GITHUB_ENV
           echo "${{ env.PR_SIZE}}"
           PR_SIZE=${{ env.PR_SIZE }}
           THRESHOLD=1 # Set the threshold here (e.g., 500 lines of code changed)
@@ -39,9 +40,16 @@ jobs:
             # Leave a comment using the provided token
             # For example, using "gh" CLI:
             gh pr comment ${{ github.event.number }} -b "Warning: Pull request size exceeds the threshold. Please consider splitting the changes into smaller PRs."
-            # Uncomment the above line by removing the "#" to enable the comment functionality.
-            # To use "gh" CLI, you'll need to have it installed and authenticated.
-            # For more information, visit https://cli.github.com/manual/
-            # Alternatively, you can use GitHub REST API with "curl" or other tools.
-            exit 1 # Optionally, you can exit with an error code to prevent merging.
-          fi
+            echo "merge=False" >> $GITHUB_ENV
+          fi   
+          
+      - name: block pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }} # Use the secret token
+        run:
+          if [ "$env.merge" = false ]; then
+            gh pr edit ${{ github.event.number }} --mergeable false --token $TOKEN
+          else
+            echo "Mergeable"
+          f1
+            

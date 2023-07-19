@@ -15,7 +15,10 @@ jobs:
       - name: Calculate pull request size
         id: pr-size
         run: |
-          PR_SIZE=$(git diff --numstat origin/main..HEAD | awk '{ sum+=$1 } END { print sum }')
+          # Fetch all branches from the remote repository
+          git fetch --all
+          # Calculate the number of lines changed in the pull request compared to the base branch (e.g., "main")
+          PR_SIZE=$(git diff --numstat $(git merge-base origin/main HEAD)..HEAD | awk '{ sum+=$1 } END { print sum }')
           echo "::set-output name=size::$PR_SIZE"
 
       - name: Check pull request size

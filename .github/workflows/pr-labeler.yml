@@ -33,5 +33,45 @@ jobs:
               "50": "M",
               "250": "Too Large"
             }
+            
+  check_pull_request_size:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Calculate pull request size
+        id: pr-size
+        run: |
+          # Fetch all branches from the remote repository
+          git fetch --all
+          # Calculate the number of lines changed in the pull request compared to the base branch (e.g., "main")
+          BASE_BRANCH=$(git rev-parse origin/main)
+          HEAD_COMMIT=$(git rev-parse HEAD)
+          PR_SIZE=$(git diff-tree --numstat $BASE_BRANCH..$HEAD_COMMIT | awk '{ sum+=$1 } END { print sum }')
+          PR_SIZE=${PR_SIZE:-0}
+          echo "PR_SIZE=$PR_SIZE">>$GITHUB_ENV
+          echo "$PR_SIZE"
+
+
+      - name: Check pull request size
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }} # Use the secret token
+        run: |
+          echo "${{ env.PR_SIZE}}"
+          PR_SIZE=${{ env.PR_SIZE }}
+          THRESHOLD=1 # Set the threshold here (e.g., 500 lines of code changed)
+          if [ $PR_SIZE -gt $THRESHOLD ]; then
+            val=$'\e[31m'"Warning: Pull request size ($PR_SIZE lines) exceeds the threshold ($THRESHOLD lines)."$'\e[0m'
+            echo "Please consider splitting the changes into smaller, more manageable pull requests."
+            # Leave a comment using the provided token
+            # For example, using "gh" CLI:
+            gh pr comment ${{ github.event.number }} -b "${{val}}"
+            API_URL="https://api.github.com/repos/singhkushagra01/test/pulls/${{github.event.number}}"
+            DATA="{\"mergeable\": false}"
+            curl -X PATCH -H "Authorization: Bearer ${{secrets.TOKEN}}" -H "Content-Type: application/json" -d "$DATA" "$API_URL"
+
+          fi   
 
   

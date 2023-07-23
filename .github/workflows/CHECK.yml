@@ -34,7 +34,7 @@ jobs:
           PR_SIZE=${{ env.PR_SIZE }}
           THRESHOLD=1 # Set the threshold here (e.g., 500 lines of code changed)
           if [ $PR_SIZE -gt $THRESHOLD ]; then
-            val = $"Warning: Pull request size ($PR_SIZE lines) exceeds the threshold ($THRESHOLD lines)."
+            val=$'\e[31m'"Warning: Pull request size ($PR_SIZE lines) exceeds the threshold ($THRESHOLD lines)."$'\e[0m'
             echo "Please consider splitting the changes into smaller, more manageable pull requests."
             # Leave a comment using the provided token
             # For example, using "gh" CLI:

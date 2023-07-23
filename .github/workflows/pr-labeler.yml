@@ -1,7 +1,14 @@
 name: Pull Request Labeling
 
 on:
-  - pull_request
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      - TEST
+      - TEST1
 
 jobs:
   triage:

@@ -15,6 +15,10 @@ def divide(x, y):
     return x / y
 username = 'hello'
 password = 'jiji'
+i = int()
+credentials = "hhg"
+token = "ff"
+PASSWORD = "NIN"
 auth = (username, password)
 print(auth)
 print(5/0)

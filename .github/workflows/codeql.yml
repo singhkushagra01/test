@@ -96,6 +96,6 @@ jobs:
         source ~/.bashrc
 
         echo "::group::Extracting CodeQL results"
-        codeql github upload-results --repository "${GITHUB_REPOSITORY}" --commit "${GITHUB_SHA}" ${{ github.workspace }}/codeql-results
+        /usr/local/bin/codeql github upload-results --repository "${GITHUB_REPOSITORY}" --commit "${GITHUB_SHA}" ${{ github.workspace }}/codeql-results
         echo "::endgroup::"
         

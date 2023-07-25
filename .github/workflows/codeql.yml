@@ -79,19 +79,19 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
-      #with:
-        #category: "/language:${{matrix.language}}"
-    - name: Save CodeQL report as an artifact
-      uses: actions/upload-artifact@v2
       with:
-        name: codeql-results
-        path: /home/runner/work/test/results/python.sarif
+        category: "/language:${{matrix.language}}"
+    #- name: Save CodeQL report as an artifact
+     # uses: actions/upload-artifact@v2
+     # with:
+      #  name: codeql-results
+       # path: /home/runner/work/test/results/python.sarif
         
-    - name: Upload SARIF
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: /home/runner/work/test/results/python.sarif
-        category: "upload-sarif-file"
+    #- name: Upload SARIF
+      #uses: github/codeql-action/upload-sarif@v2
+      #with:
+        #sarif_file: /home/runner/work/test/results/python.sarif
+        #category: "upload-sarif-file"
    #- name: Upload SARIF file
     #  uses: github/codeql-action/upload-sarif@v2
      # with:
@@ -101,17 +101,17 @@ jobs:
          # # Used to differentiate multiple results for one commit
         #category: my-analysis-tool
    
-    - name: Extract results and create a comment on PR
-      env:
-        PATH: /usr/local/bin/codeql:$PATH
-      run: |
-        wget https://github.com/github/codeql-cli-binaries/releases/latest/download/codeql-linux64.zip
-        unzip codeql-linux64.zip
-        sudo mv codeql /usr/local/bin/
+   # - name: Extract results and create a comment on PR
+    #  env:
+     #   PATH: /usr/local/bin/codeql:$PATH
+     #run: |
+       # wget https://github.com/github/codeql-cli-binaries/releases/latest/download/codeql-linux64.zip
+       # unzip codeql-linux64.zip
+        #sudo mv codeql /usr/local/bin/
 
-        echo "::group::Extracting CodeQL results"
-        /usr/local/bin/codeql github upload-results --repository "${GITHUB_REPOSITORY}" --commit "${GITHUB_SHA}" ${{ github.workspace }}/codeql-results
-        echo "::endgroup::"
+        #echo "::group::Extracting CodeQL results"
+        #/usr/local/bin/codeql github upload-results --repository "${GITHUB_REPOSITORY}" --commit "${GITHUB_SHA}" ${{ github.workspace }}/codeql-results
+        #echo "::endgroup::"
 
-        gh pr comment create ${{ github.event.pull_request.number }} --body "CodeQL analysis results are available. Check the report in the Checks tab."
+        #gh pr comment create ${{ github.event.pull_request.number }} --body "CodeQL analysis results are available. Check the report in the Checks tab."
 

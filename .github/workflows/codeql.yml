@@ -86,16 +86,26 @@ jobs:
       with:
         name: codeql-results
         path: ${{ github.workspace }}/codeql-results
-
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+          # Path to SARIF file relative to the root of the repository
+        sarif_file: python.sarif
+          # Optional category for the results
+          # Used to differentiate multiple results for one commit
+        category: my-analysis-tool
+   
     - name: Extract results and create a comment on PR
+      env:
+        PATH: /usr/local/bin/codeql:$PATH
       run: |
         wget https://github.com/github/codeql-cli-binaries/releases/latest/download/codeql-linux64.zip
         unzip codeql-linux64.zip
         sudo mv codeql /usr/local/bin/
-        echo 'export PATH="/usr/local/bin/codeql:$PATH"' >> ~/.bashrc
-        source ~/.bashrc
 
         echo "::group::Extracting CodeQL results"
         /usr/local/bin/codeql github upload-results --repository "${GITHUB_REPOSITORY}" --commit "${GITHUB_SHA}" ${{ github.workspace }}/codeql-results
         echo "::endgroup::"
-        
+
+        gh pr comment create ${{ github.event.pull_request.number }} --body "CodeQL analysis results are available. Check the report in the Checks tab."
+

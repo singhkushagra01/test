@@ -86,14 +86,20 @@ jobs:
       with:
         name: codeql-results
         path: ${{ github.workspace }}/codeql-results
-    - name: Upload SARIF file
-      uses: github/codeql-action/upload-sarif@v2
+        
+    - name: Upload SARIF
+      uses: github/codeql-action/upload-sarif@v1
       with:
-          # Path to SARIF file relative to the root of the repository
-        sarif_file: /home/runner/work/test/results/python.sarif
-          # Optional category for the results
-          # Used to differentiate multiple results for one commit
-        category: my-analysis-tool
+        sarif_file: ${{ github.workspace }}/codeql-results/results.sarif
+   
+   #- name: Upload SARIF file
+    #  uses: github/codeql-action/upload-sarif@v2
+     # with:
+      #    # Path to SARIF file relative to the root of the repository
+       # sarif_file: /home/runner/work/test/results/python.sarif
+        #  # Optional category for the results
+         # # Used to differentiate multiple results for one commit
+        #category: my-analysis-tool
    
     - name: Extract results and create a comment on PR
       env:

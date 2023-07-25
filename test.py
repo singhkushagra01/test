@@ -13,8 +13,11 @@ def multiply(x, y):
 # This function divides two numbers
 def divide(x, y):
     return x / y
-
-
+username = 'hello'
+password = 'jiji'
+auth = (username, password)
+print(auth)
+print(5/0)
 print("Select operation.")
 print("1.Add")
 print("2.Subtract")

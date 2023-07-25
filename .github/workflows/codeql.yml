@@ -76,7 +76,7 @@ jobs:
     #     ./location_of_script_within_repo/buildscript.sh
 
     - name: Perform CodeQL Analysis
-      uses: singhkushagra01/codeql-action/analyze@v1
+      uses: singhkushagra01/codeql-action/analyze@v1.0.0
       with:
         category: "/language:${{matrix.language}}"
     #- name: Save CodeQL report as an artifact

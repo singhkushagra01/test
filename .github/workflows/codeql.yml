@@ -92,9 +92,9 @@ jobs:
         wget https://github.com/github/codeql-cli-binaries/releases/latest/download/codeql-linux64.zip
         unzip codeql-linux64.zip
         sudo mv codeql /usr/local/bin/
-        nano ~/.bashrc
-        export PATH="/usr/local/bin/codeql:$PATH"
+        echo 'export PATH="/usr/local/bin/codeql:$PATH"' >> ~/.bashrc
         source ~/.bashrc
+
         echo "::group::Extracting CodeQL results"
         codeql github upload-results --repository "${GITHUB_REPOSITORY}" --commit "${GITHUB_SHA}" ${{ github.workspace }}/codeql-results
         echo "::endgroup::"

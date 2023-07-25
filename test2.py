@@ -2,6 +2,7 @@ import random
    
 variab = int()
 vrvr = input()
+HELLLL = "HELLO"
 # function to generate 
 # a random string 
 def generateOne(strlen): 
